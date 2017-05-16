@@ -1,5 +1,5 @@
 # Camel Components
-The Axians [Camel](http://camel.apache.org) Components project provides Camel components that implement Camel consumer and/or producer endpoints to specific resources and or systems from a Camel route.
+The Axians [Camel](http://camel.apache.org) Components project provides components that implement consumer and/or producer endpoints to communicate with specific resources and systems.
 
 ## Authors
 
