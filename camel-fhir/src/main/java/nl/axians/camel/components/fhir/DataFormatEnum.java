@@ -1,7 +1,5 @@
 package nl.axians.camel.components.fhir;
 
-import nl.axians.camel.components.fhir.internal.Operation;
-
 public enum DataFormatEnum {
 	JSON("json"),
 	XML("xml");
