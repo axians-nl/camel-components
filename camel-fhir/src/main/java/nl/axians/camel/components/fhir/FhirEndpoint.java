@@ -23,7 +23,6 @@ import org.apache.camel.impl.DefaultEndpoint;
 import org.apache.http.client.HttpClient;
 
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.rest.api.PreferReturnEnum;
 
 /**
  * FHIR Camel Endpoint.
@@ -33,8 +32,8 @@ import ca.uhn.fhir.rest.api.PreferReturnEnum;
  */
 public class FhirEndpoint extends DefaultEndpoint {
 
-	private PreferReturnEnum returnType;
 	private String remaining;
+	private FhirConfiguration configuration;
 	
 	//*************************************************************************
 	// Constructors.
@@ -45,9 +44,11 @@ public class FhirEndpoint extends DefaultEndpoint {
 	 * 
 	 * @param fhirComponent The component that created the endpoint.
 	 * @param remaining The remaining part of the protocol.
+	 * @param configuration 
 	 */
-	public FhirEndpoint(FhirComponent fhirComponent, String remaining) {
+	public FhirEndpoint(FhirComponent fhirComponent, String remaining, FhirConfiguration configuration) {
 		this.remaining = remaining;
+		this.configuration = configuration; 
 	}
 	
 	//*************************************************************************
@@ -109,16 +110,12 @@ public class FhirEndpoint extends DefaultEndpoint {
 		return true;
 	}
 
-	public PreferReturnEnum getReturnType() {
-		return returnType;
-	}
-
-	public void setReturnType(PreferReturnEnum returnType) {
-		this.returnType = returnType;
-	}
-	
 	public String getRemaining() {
 		return this.remaining;
+	}
+	
+	public FhirConfiguration getConfiguration() {
+		return this.configuration;
 	}
 
 }

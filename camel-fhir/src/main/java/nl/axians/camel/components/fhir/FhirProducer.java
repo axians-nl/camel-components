@@ -24,7 +24,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultProducer;
 
 import ca.uhn.fhir.rest.client.IGenericClient;
-import nl.axians.camel.components.fhir.internal.Operation;
+import nl.axians.camel.components.fhir.commands.FhirCommand;
 
 /**
  * FHIR Camel Producer to send messages to FHIR compatible endpoints.
@@ -64,11 +64,10 @@ public class FhirProducer extends DefaultProducer {
 		logger.log(Level.INFO, "FHIR server base = " + serverBase);
 		
 		IGenericClient client = getEndpoint().getFhirContext().newRestfulGenericClient(serverBase);
-		FhirConfiguration configuration = new FhirConfiguration();
-		configuration.setReturnType(getEndpoint().getReturnType());
+		FhirConfiguration configuration = getEndpoint().getConfiguration();
 		
-		Operation operation = Operation.fromValue(getEndpoint().getRemaining());
-		operation.execute(configuration, client, exchange);
+		FhirCommand command = exchange.getIn().getBody(FhirCommand.class);
+		command.execute(configuration, client, exchange);
 	}
 	
 	//*************************************************************************

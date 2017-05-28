@@ -69,11 +69,12 @@ public class FhirComponent extends DefaultComponent  {
 	protected Endpoint createEndpoint(String protocol, String remaining, 
 			Map<String, Object> parameters) throws Exception {
 		
-		// Create the endpoint.
-		FhirEndpoint endpoint = new FhirEndpoint(this, remaining);
-		
 		// Set the endpoint properties using the specified parameters.
-		setProperties(endpoint, parameters);
+		FhirConfiguration configuration = new FhirConfiguration();
+		setProperties(configuration, parameters);
+		
+		// Create the endpoint.
+		FhirEndpoint endpoint = new FhirEndpoint(this, remaining, configuration);
 		
 		return endpoint;
 	}

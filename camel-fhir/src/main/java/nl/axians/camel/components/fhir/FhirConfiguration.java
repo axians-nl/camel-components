@@ -20,7 +20,10 @@ import ca.uhn.fhir.rest.api.PreferReturnEnum;
 
 public class FhirConfiguration {
 
-	private PreferReturnEnum returnType;
+	private PreferReturnEnum returnType = PreferReturnEnum.MINIMAL;
+	private Boolean prettyPrint = true;
+	private DataFormatEnum dataFormat = DataFormatEnum.JSON;
+	private String type;
 
 	//*************************************************************************
 	// Constructors.
@@ -53,6 +56,30 @@ public class FhirConfiguration {
 	 */
 	public void setReturnType(PreferReturnEnum returnType) {
 		this.returnType = returnType;
+	}
+
+	public Boolean getPrettyPrint() {
+		return prettyPrint;
+	}
+
+	public void setPrettyPrint(Boolean prettyPrint) {
+		this.prettyPrint = prettyPrint;
+	}
+
+	public DataFormatEnum getDataFormat() {
+		return dataFormat;
+	}
+
+	public void setDataFormat(DataFormatEnum dataFormat) {
+		this.dataFormat = dataFormat;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}	
 	
 }
