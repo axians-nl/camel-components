@@ -10,8 +10,8 @@ import ca.uhn.fhir.rest.gclient.IQuery;
 import nl.axians.camel.components.fhir.DataFormatEnum;
 import nl.axians.camel.components.fhir.FhirConfiguration;
 
+// TODO Add support for use of criteria.
 public class SearchCommand implements FhirCommand {
-	
 	private Class<? extends IBaseResource> searchClass;
 	private BundleTypeEnum bundleType;
 	private String queryURL;
@@ -56,20 +56,20 @@ public class SearchCommand implements FhirCommand {
 		IQuery<Bundle> query;
 		
 		// Create the query for the search command.
-		query = client.search().byUrl("/" + searchClass.getSimpleName() + "?" + queryURL);
+		query = client.search().byUrl(searchClass.getSimpleName() + "?" + queryURL);
 		
 		// Check if we need to apply pretty printing of the request.
 		if (configuration.getPrettyPrint()) {
 			query.prettyPrint();
 		}
-		
+
 		// Check which output format to use: XML or JSON.
 		if (configuration.getDataFormat() == DataFormatEnum.XML) {
 			query.encodedXml();
 		} else {
 			query.encodedJson();
 		}
-		
+
 		// Execute the request and put response on the exchange body.
 		IBaseBundle bundle;
 		if (bundleType == BundleTypeEnum.HL7) { 

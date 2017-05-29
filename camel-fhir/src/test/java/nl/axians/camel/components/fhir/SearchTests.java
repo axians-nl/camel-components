@@ -26,7 +26,6 @@ import org.junit.Test;
 
 import ca.uhn.fhir.model.dstu2.resource.Bundle;
 import ca.uhn.fhir.model.dstu2.resource.Patient;
-import ca.uhn.fhir.rest.gclient.ICriterion;
 import nl.axians.camel.components.fhir.commands.BundleTypeEnum;
 import nl.axians.camel.components.fhir.commands.SearchCommand;
 
