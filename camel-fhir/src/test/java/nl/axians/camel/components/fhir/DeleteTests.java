@@ -16,6 +16,8 @@
  */
 package nl.axians.camel.components.fhir;
 
+import java.util.Date;
+
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Produce;
@@ -48,22 +50,24 @@ public class DeleteTests extends FhirTestSupport {
 	
 	@Test
 	public void testDeleteResource() throws InterruptedException {
-		IBaseResource resource = createResource().getResource();
+		IBaseResource resource = createResource("Doe" + getDateTime(), "John").getResource();
 		DeleteCommand command = DeleteCommand.createDeleteResourceCommand(resource);
 		templateDelete.sendBodyAndHeaders(command, getFhirHeaders());
 	}
 	
 	@Test
 	public void testDeleteResourceById() throws InterruptedException {
-		IIdType resourceId = createResource().getId();
+		IIdType resourceId = createResource("Doe" + getDateTime(), "John").getId();
 		DeleteCommand command = DeleteCommand.createDeleteResourceByIdCommand(resourceId);
 		templateDelete.sendBodyAndHeaders(command, getFhirHeaders());		
 	}
 
 	@Test
 	public void testDeleteResourceByUrl() throws InterruptedException {
+		String dateTime = getDateTime();
+		createResource("Doe" + dateTime, "John").getId();
 		DeleteCommand command = DeleteCommand.createDeleteResourceByUrlCommand(
-				Patient.class, "family=van%20Doe&given=John");
+				Patient.class, String.format("family=Doe%s&given=John", dateTime));
 		templateDelete.sendBodyAndHeaders(command, getFhirHeaders());		
 	}
 	
@@ -82,11 +86,11 @@ public class DeleteTests extends FhirTestSupport {
         };
     }	
     
-    protected MethodOutcome createResource() {
+    protected MethodOutcome createResource(String family, String given) {
 		Patient p = new Patient();
 		p.addName()
-			.addFamily("van Doe")
-			.addGiven("John");
+			.addFamily(family)
+			.addGiven(given);
 		
 		// Create the command and start the route.
 		CreateCommand command = new CreateCommand(PreferReturnEnum.REPRESENTATION, p);
@@ -99,6 +103,10 @@ public class DeleteTests extends FhirTestSupport {
 		assertNotNull(response.getId());
 
 		return response;
+    }
+    
+    protected String getDateTime() {
+    	return String.valueOf(new Date().getTime());
     }
 
 }
