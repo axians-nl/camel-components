@@ -26,7 +26,6 @@ import org.hl7.fhir.instance.model.api.IBaseConformance;
 import org.junit.Test;
 
 import ca.uhn.fhir.context.FhirVersionEnum;
-import ca.uhn.fhir.model.dstu2.resource.Conformance;
 import nl.axians.camel.components.fhir.commands.ConformanceCommand;
 
 public class FetchConformanceTests extends FhirTestSupport {
@@ -38,20 +37,42 @@ public class FetchConformanceTests extends FhirTestSupport {
     protected ProducerTemplate template;	
 	
 	@Test
-	public void testFetchConformance() throws InterruptedException {
+	public void testDTU2FetchConformance() throws InterruptedException {
 		// Define test results.
 		resultEndpoint.reset();
 		resultEndpoint.expectedMessageCount(1);
 		resultEndpoint.expectedBodyReceived().body(IBaseConformance.class);
 		
 		// Execute test.
-		ConformanceCommand command = new ConformanceCommand(Conformance.class);
+		ConformanceCommand command = ConformanceCommand.createDTU2ConformanceCommand();
 		template.sendBodyAndHeaders(command, getFhirHeaders());
 		
 		// Verify results.
 		resultEndpoint.assertIsSatisfied();
 		Exchange exchange = resultEndpoint.getExchanges().get(0);
-		Conformance response = exchange.getIn().getBody(Conformance.class);
+		ca.uhn.fhir.model.dstu2.resource.Conformance response = exchange.getIn().getBody(
+				ca.uhn.fhir.model.dstu2.resource.Conformance.class);
+		assertEquals("", response.getFhirVersion());
+		assertEquals(FhirVersionEnum.DSTU2_1, response.getStructureFhirVersionEnum());
+		assertEquals("", response.getName());
+	}
+
+	@Test
+	public void testHL7FetchConformance() throws InterruptedException {
+		// Define test results.
+		resultEndpoint.reset();
+		resultEndpoint.expectedMessageCount(1);
+		resultEndpoint.expectedBodyReceived().body(IBaseConformance.class);
+		
+		// Execute test.
+		ConformanceCommand command = ConformanceCommand.createHL7ConformanceCommand();
+		template.sendBodyAndHeaders(command, getFhirHeaders());
+		
+		// Verify results.
+		resultEndpoint.assertIsSatisfied();
+		Exchange exchange = resultEndpoint.getExchanges().get(0);
+		org.hl7.fhir.instance.model.Conformance response = exchange.getIn().getBody(
+				org.hl7.fhir.instance.model.Conformance.class);
 		assertEquals("", response.getFhirVersion());
 		assertEquals(FhirVersionEnum.DSTU2_1, response.getStructureFhirVersionEnum());
 		assertEquals("", response.getName());

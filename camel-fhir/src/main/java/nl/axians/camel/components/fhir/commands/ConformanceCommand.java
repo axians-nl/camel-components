@@ -11,6 +11,14 @@ import nl.axians.camel.components.fhir.FhirConfiguration;
 public class ConformanceCommand implements FhirCommand {
 
 	private Class<? extends IBaseConformance> type;
+
+	public static final ConformanceCommand createHL7ConformanceCommand() {
+		return new ConformanceCommand(org.hl7.fhir.instance.model.Conformance.class);
+	}
+
+	public static final ConformanceCommand createDTU2ConformanceCommand() {
+		return new ConformanceCommand(ca.uhn.fhir.model.dstu2.resource.Conformance.class);
+	}
 	
 	public ConformanceCommand() {
 	}
