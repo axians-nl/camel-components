@@ -52,9 +52,8 @@ public class FetchConformanceTests extends FhirTestSupport {
 		Exchange exchange = resultEndpoint.getExchanges().get(0);
 		ca.uhn.fhir.model.dstu2.resource.Conformance response = exchange.getIn().getBody(
 				ca.uhn.fhir.model.dstu2.resource.Conformance.class);
-		assertEquals("", response.getFhirVersion());
-		assertEquals(FhirVersionEnum.DSTU2_1, response.getStructureFhirVersionEnum());
-		assertEquals("", response.getName());
+		assertEquals("1.0.2", response.getFhirVersion());
+		assertEquals(FhirVersionEnum.DSTU2, response.getStructureFhirVersionEnum());
 	}
 
 	@Test
