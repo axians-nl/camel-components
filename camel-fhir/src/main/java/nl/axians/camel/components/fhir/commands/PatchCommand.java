@@ -11,9 +11,9 @@ import ca.uhn.fhir.rest.gclient.IUpdateTyped;
 import nl.axians.camel.components.fhir.DataFormatEnum;
 import nl.axians.camel.components.fhir.FhirConfiguration;
 
-/**
+/*******************************************************************************
  * Copyright 2017 AXIANS
- * 
+ *  
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
  * this work for additional information regarding copyright ownership.
@@ -28,7 +28,7 @@ import nl.axians.camel.components.fhir.FhirConfiguration;
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *******************************************************************************/
 public class PatchCommand implements FhirCommand {
 
 	private String resourceBody;
