@@ -18,36 +18,31 @@
  *******************************************************************************/
 package nl.axians.camel.components.fhir.commands;
 
-import org.hl7.fhir.instance.model.api.IBaseBundle;
-
 /**
- * Enumeration used in some of the commands to identify which bundle class to use.
- *  
+ * Enumeration with the recognized FHIR versions.
+ * 
  * @author Jacob Hoeflaken
  * @since 1.0
  */
-public enum BundleTypeEnum {
+public enum FhirVersion {
 	/**
-	 * Use the HL7 bundle class {@link org.hl7.fhir.instance.model.Bundle}.
+	 * Version 1 of FHIR.
 	 */
-	HL7,
-	
+	DSTU1,
 	/**
-	 * Use the DTU2 bundle class {@link ca.uhn.fhir.model.dstu2.resource.Bundle}
+	 * Version 2 of FHIR.
 	 */
-	DSTU2;
-	
+	DSTU2,
 	/**
-	 * Get the class for the specified bundle type.
-	 * 
-	 * @param bundleType The bundle type for which to get the class.
-	 * 
-	 * @return Class {@link org.hl7.fhir.instance.model.Bundle} if bundleType is {@link #HL7}, 
-	 *         class {@link ca.uhn.fhir.model.dstu2.resource.Bundle} otherwise.
+	 * Version 2.1 of FHIR.
 	 */
-	public static final Class<? extends IBaseBundle> getBundleTypeClass(BundleTypeEnum bundleType) {
-		return bundleType == BundleTypeEnum.HL7 ? org.hl7.fhir.instance.model.Bundle.class : 
-			ca.uhn.fhir.model.dstu2.resource.Bundle.class;
-	}
-
+	DSTU2_1,
+	/**
+	 * Version 2 of FHIR with HL7 reference implementation structures.
+	 */
+	DSTU2_HL7ORG,
+	/**
+	 * Version 3 of FHIR.
+	 */
+	DSTU3;
 }

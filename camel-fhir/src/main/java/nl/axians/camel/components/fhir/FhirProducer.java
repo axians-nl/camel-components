@@ -67,7 +67,6 @@ public class FhirProducer extends DefaultProducer {
 		
 		IGenericClient client = getEndpoint().getFhirContext().newRestfulGenericClient(serverBase);
 		FhirConfiguration configuration = getEndpoint().getConfiguration();
-		
 		FhirCommand command = exchange.getIn().getBody(FhirCommand.class);
 		command.execute(configuration, client, exchange);
 	}

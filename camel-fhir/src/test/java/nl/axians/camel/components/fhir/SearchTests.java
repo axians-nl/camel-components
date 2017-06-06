@@ -47,7 +47,7 @@ public class SearchTests extends FhirTestSupport {
 		resultEndpoint.expectedBodyReceived().body(Bundle.class);
 
 		// Create the command and start the route.
-		SearchCommand command = new SearchCommand(Patient.class, BundleTypeEnum.DTU2, "family=Doe&given=John");
+		SearchCommand command = new SearchCommand(Patient.class, BundleTypeEnum.DSTU2, "family=Doe&given=John");
 		template.sendBodyAndHeaders(command, getFhirHeaders());
 		
 		// Verify test results.

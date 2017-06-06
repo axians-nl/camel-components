@@ -24,15 +24,45 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.test.junit4.CamelTestSupport;
 
+import nl.axians.camel.components.fhir.commands.FhirVersion;
+
 public class FhirTestSupport extends CamelTestSupport {
 	
+	private static final String FHIRTEST_BASE_DSTU1 = "http://fhirtest.uhn.ca/baseDstu1";
 	private static final String FHIRTEST_BASE_DSTU2 = "http://fhirtest.uhn.ca/baseDstu2";
+	private static final String FHIRTEST_BASE_DSTU2_HL7ORG = "http://fhirtest.uhn.ca/baseDstu2";
+	private static final String FHIRTEST_BASE_DSTU2_1 = "http://fhirtest.uhn.ca/baseDstu2";
+	private static final String FHIRTEST_BASE_DSTU3 = "http://fhirtest.uhn.ca/baseDstu3";
+	
 
-	protected Map<String, Object> getFhirHeaders() {
+	protected Map<String, Object> getFhirHeaders(FhirVersion version) {
 		Map<String, Object> headers = new HashMap<>();
-		headers.put(Exchange.HTTP_BASE_URI, FHIRTEST_BASE_DSTU2);	
+		
+		switch(version) {
+		case DSTU1:
+			headers.put(Exchange.HTTP_BASE_URI, FHIRTEST_BASE_DSTU1);
+			break;
+		case DSTU2:
+			headers.put(Exchange.HTTP_BASE_URI, FHIRTEST_BASE_DSTU2);
+			break;
+		case DSTU2_1:
+			headers.put(Exchange.HTTP_BASE_URI, FHIRTEST_BASE_DSTU2_1);
+			break;
+		case DSTU2_HL7ORG:
+			headers.put(Exchange.HTTP_BASE_URI, FHIRTEST_BASE_DSTU2_HL7ORG);
+			break;
+		case DSTU3:
+			headers.put(Exchange.HTTP_BASE_URI, FHIRTEST_BASE_DSTU3);
+			break;
+		default:
+			headers.put(Exchange.HTTP_BASE_URI, FHIRTEST_BASE_DSTU2);
+		}
 		
 		return headers;
+	}
+	
+	protected Map<String, Object> getFhirHeaders() {
+		return getFhirHeaders(FhirVersion.DSTU2_HL7ORG);
 	}
 	
 }

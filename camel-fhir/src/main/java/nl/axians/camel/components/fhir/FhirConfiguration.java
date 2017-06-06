@@ -19,6 +19,7 @@
 package nl.axians.camel.components.fhir;
 
 import ca.uhn.fhir.rest.api.PreferReturnEnum;
+import nl.axians.camel.components.fhir.commands.FhirVersion;
 
 public class FhirConfiguration {
 
@@ -26,6 +27,7 @@ public class FhirConfiguration {
 	private Boolean prettyPrint = true;
 	private DataFormatEnum dataFormat = DataFormatEnum.JSON;
 	private String type;
+	private FhirVersion version;
 
 	//*************************************************************************
 	// Constructors.
@@ -82,6 +84,14 @@ public class FhirConfiguration {
 
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public FhirVersion getVersion() {
+		return version;
+	}
+
+	public void setVersion(FhirVersion version) {
+		this.version = version;
 	}	
-	
+
 }

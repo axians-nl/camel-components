@@ -22,9 +22,11 @@ import org.apache.camel.Consumer;
 import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.impl.DefaultEndpoint;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.HttpClient;
 
 import ca.uhn.fhir.context.FhirContext;
+import nl.axians.camel.components.fhir.commands.FhirVersion;
 
 /**
  * FHIR Camel Endpoint.
@@ -34,8 +36,9 @@ import ca.uhn.fhir.context.FhirContext;
  */
 public class FhirEndpoint extends DefaultEndpoint {
 
-	private String remaining;
+	private FhirVersion version;
 	private FhirConfiguration configuration;
+	private FhirContext context;
 	
 	//*************************************************************************
 	// Constructors.
@@ -49,8 +52,14 @@ public class FhirEndpoint extends DefaultEndpoint {
 	 * @param configuration 
 	 */
 	public FhirEndpoint(FhirComponent fhirComponent, String remaining, FhirConfiguration configuration) {
-		this.remaining = remaining;
+		if (StringUtils.isNotBlank(remaining)) {
+			this.version = FhirVersion.valueOf(remaining);
+		} else {
+			this.version = FhirVersion.DSTU2_HL7ORG;
+		}
+		
 		this.configuration = configuration; 
+		this.configuration.setVersion(version);
 	}
 	
 	//*************************************************************************
@@ -90,7 +99,27 @@ public class FhirEndpoint extends DefaultEndpoint {
 	 *         <i>Never</i> null.
 	 */
 	public FhirContext getFhirContext() {
-		return FhirContext.forDstu2();
+		if (context == null) {
+			switch(version) {
+			case DSTU1:
+				context = FhirContext.forDstu1();
+				break;
+			case DSTU2:
+				context = FhirContext.forDstu2();
+				break;
+			case DSTU2_1:
+				context = FhirContext.forDstu2_1();
+				break;
+			case DSTU3:
+				context = FhirContext.forDstu3();
+				break;
+			default:
+				context = FhirContext.forDstu2Hl7Org();
+				break;
+			}
+		}
+		
+		return context;
 	}
 	
 	@Override
@@ -112,8 +141,8 @@ public class FhirEndpoint extends DefaultEndpoint {
 		return true;
 	}
 
-	public String getRemaining() {
-		return this.remaining;
+	public FhirVersion getFhirVersion() {
+		return this.version;
 	}
 	
 	public FhirConfiguration getConfiguration() {
